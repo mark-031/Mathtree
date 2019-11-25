@@ -122,5 +122,5 @@ class MathtreeNode
 
         int dump(const char* path);
 
-        void operator*(const MathtreeNode& node_);
+        MathtreeNode* operator*(MathtreeNode& node_);
 };

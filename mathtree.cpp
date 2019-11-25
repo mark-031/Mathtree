@@ -155,3 +155,16 @@ int MathtreeNode::dump(const char* path)
 
     return 0;
 }
+
+MathtreeNode* MathtreeNode::operator*(MathtreeNode& node_)
+{
+    if(this->parent != nullptr || node_.parent != nullptr)
+        return nullptr;
+
+    MathtreeNode* mulNode = new MathtreeNode(MTDATAOP(Mul), MTDATATYPE(Op));
+
+    mulNode->setLeft(this);
+    mulNode->setRight(&node_);
+
+    return mulNode;
+}
