@@ -200,3 +200,13 @@ MathtreeNode* MathtreeNode::operator*(MathtreeNode& node_)
 
     return mulNode;
 }
+
+MathtreeNode* MathtreeNode::operator*(const mtelem_t& num_)
+{
+    if(this->parent != nullptr)
+        return nullptr;
+
+    MathtreeNode* num = new MathtreeNode(num_);
+
+    return ((*num) * (*this));
+}

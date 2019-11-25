@@ -133,4 +133,6 @@ class MathtreeNode
         int dump(const char* path);
 
         MathtreeNode* operator*(MathtreeNode& node_);
+
+        MathtreeNode* operator*(const mtelem_t& num_);
 };
