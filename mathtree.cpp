@@ -71,11 +71,11 @@ void MathtreeNode::dotWriteNodes_(FILE* dotfile_)
     
     fprintf(dotfile_, "\"];\n");
 
-    if(this->right != nullptr)
-        this->right->dotWriteNodes_(dotfile_);
-
     if(this->left != nullptr)
         this->left->dotWriteNodes_(dotfile_);
+
+    if(this->right != nullptr)
+        this->right->dotWriteNodes_(dotfile_);
 }
 
 void MathtreeNode::dotWriteEdges_(FILE* dotfile_)
@@ -188,6 +188,52 @@ int MathtreeNode::dump(const char* path)
     return 0;
 }
 
+MathtreeNode* MathtreeNode::operator+(MathtreeNode& node_)
+{
+    if(this->parent != nullptr || node_.parent != nullptr)
+        return nullptr;
+
+    MathtreeNode* addNode = new MathtreeNode(MTDATAOP(Add), MTDATATYPE(Op));
+
+    addNode->setLeft(this);
+    addNode->setRight(&node_);
+
+    return addNode;
+}
+
+MathtreeNode* MathtreeNode::operator+(const mtelem_t& num_)
+{
+    if(this->parent != nullptr)
+        return nullptr;
+
+    MathtreeNode* num = new MathtreeNode(num_);
+
+    return ((*this) + (*num));
+}
+
+MathtreeNode* MathtreeNode::operator-(MathtreeNode& node_)
+{
+    if(this->parent != nullptr || node_.parent != nullptr)
+        return nullptr;
+
+    MathtreeNode* subNode = new MathtreeNode(MTDATAOP(Sub), MTDATATYPE(Op));
+
+    subNode->setLeft(this);
+    subNode->setRight(&node_);
+
+    return subNode;
+}
+
+MathtreeNode* MathtreeNode::operator-(const mtelem_t& num_)
+{
+    if(this->parent != nullptr)
+        return nullptr;
+
+    MathtreeNode* num = new MathtreeNode(num_);
+
+    return ((*this) - (*num));
+}
+
 MathtreeNode* MathtreeNode::operator*(MathtreeNode& node_)
 {
     if(this->parent != nullptr || node_.parent != nullptr)
@@ -208,5 +254,70 @@ MathtreeNode* MathtreeNode::operator*(const mtelem_t& num_)
 
     MathtreeNode* num = new MathtreeNode(num_);
 
-    return ((*num) * (*this));
+    return ((*this) * (*num));
+}
+
+MathtreeNode* MathtreeNode::operator/(MathtreeNode& node_)
+{
+    if(this->parent != nullptr || node_.parent != nullptr)
+        return nullptr;
+
+    MathtreeNode* divNode = new MathtreeNode(MTDATAOP(Div), MTDATATYPE(Op));
+
+    divNode->setLeft(this);
+    divNode->setRight(&node_);
+
+    return divNode;
+}
+
+MathtreeNode* MathtreeNode::operator/(const mtelem_t& num_)
+{
+    if(this->parent != nullptr)
+        return nullptr;
+
+    MathtreeNode* num = new MathtreeNode(num_);
+
+    return ((*this) / (*num));
+}
+
+// Other funcs
+
+MathtreeNode* operator+(const mtelem_t& num_, MathtreeNode& node_)
+{
+    if(node_.parent != nullptr)
+        return nullptr;
+
+    MathtreeNode* num = new MathtreeNode(num_);
+
+    return ((*num) + node_);
+}
+
+MathtreeNode* operator-(const mtelem_t& num_, MathtreeNode& node_)
+{
+    if(node_.parent != nullptr)
+        return nullptr;
+
+    MathtreeNode* num = new MathtreeNode(num_);
+
+    return ((*num) - node_);
+}
+
+MathtreeNode* operator*(const mtelem_t& num_, MathtreeNode& node_)
+{
+    if(node_.parent != nullptr)
+        return nullptr;
+
+    MathtreeNode* num = new MathtreeNode(num_);
+
+    return ((*num) * node_);
+}
+
+MathtreeNode* operator/(const mtelem_t& num_, MathtreeNode& node_)
+{
+    if(node_.parent != nullptr)
+        return nullptr;
+
+    MathtreeNode* num = new MathtreeNode(num_);
+
+    return ((*num) / node_);
 }

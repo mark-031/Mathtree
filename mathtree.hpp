@@ -132,7 +132,27 @@ class MathtreeNode
 
         int dump(const char* path);
 
+        MathtreeNode* operator+(MathtreeNode& node_);
+
+        MathtreeNode* operator+(const mtelem_t& num_);
+
+        MathtreeNode* operator-(MathtreeNode& node_);
+
+        MathtreeNode* operator-(const mtelem_t& num_);
+
         MathtreeNode* operator*(MathtreeNode& node_);
 
         MathtreeNode* operator*(const mtelem_t& num_);
+
+        MathtreeNode* operator/(MathtreeNode& node_);
+
+        MathtreeNode* operator/(const mtelem_t& num_);
+
+        friend MathtreeNode* operator+(const mtelem_t& num_, MathtreeNode& node_);
+
+        friend MathtreeNode* operator-(const mtelem_t& num_, MathtreeNode& node_);
+
+        friend MathtreeNode* operator*(const mtelem_t& num_, MathtreeNode& node_);
+
+        friend MathtreeNode* operator/(const mtelem_t& num_, MathtreeNode& node_);
 };
