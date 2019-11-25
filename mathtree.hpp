@@ -8,11 +8,13 @@ union mtnodedata_t
 {
     mtelem_t     num;
     unsigned int op;
+    char         var;
 
     mtnodedata_t()
     {
         op  = 0;
         num = 0;
+        var = 0;
     }
 
     mtnodedata_t(unsigned int item)
@@ -24,6 +26,11 @@ union mtnodedata_t
     {
         num = item;
     }
+
+    mtnodedata_t(char item)
+    {
+        var = item;
+    }
 };
 
 
@@ -31,6 +38,7 @@ enum MathtreeDataTypes
 {
     MathtreeDataTypeNumber   = 1,
     MathtreeDataTypeOp       = 2,
+    MathtreeDataTypeVar      = 3,
 };
 
 #define MTDATATYPE(name) (char) MathtreeDataType##name
@@ -120,6 +128,8 @@ class MathtreeNode
 
         MathtreeNode(const unsigned int op_);
 
+        MathtreeNode(const char var_);
+
         ~MathtreeNode();
 
         int createRight(const mtnodedata_t num_, const char type_);
@@ -129,6 +139,8 @@ class MathtreeNode
         int setRight(MathtreeNode* node_);
         
         int setLeft(MathtreeNode* node_);
+
+        mtelem_t calc();
 
         int dump(const char* path);
 

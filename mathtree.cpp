@@ -9,7 +9,7 @@ Mathtree::Mathtree()
 
 Mathtree::~Mathtree()
 {
-    if(this->root != nullptr);
+    if(this->root != nullptr)
         delete this->root;
 }
 
@@ -62,6 +62,9 @@ void MathtreeNode::dotWriteNodes_(FILE* dotfile_)
 
     if(this->data->type == MTDATATYPE(Number))
         fprintf(dotfile_, MTELEM_T, this->data->data.num);
+    
+    else if(this->data->type == MTDATATYPE(Var))
+        fprintf(dotfile_, "%c", this->data->data.var);
 
     else if(this->data->type == MTDATATYPE(Op))
         fprintf(dotfile_, opToStr(this->data->data));
@@ -106,6 +109,11 @@ MathtreeNode::MathtreeNode(const mtelem_t number_)
 MathtreeNode::MathtreeNode(const unsigned int op_)
 {
     this->init_((mtnodedata_t) op_, MTDATATYPE(Op));
+}
+
+MathtreeNode::MathtreeNode(const char var_)
+{
+    this->init_((mtnodedata_t) var_, MTDATATYPE(Var));
 }
 
 MathtreeNode::~MathtreeNode()
@@ -167,6 +175,33 @@ int MathtreeNode::setLeft(MathtreeNode* node_)
     node_->parent = this;
 
     return 0;
+}
+
+#define CALCOPSTART() if(0)
+#define CALCOP(name, op_)                             \
+else if(this->data->data.op == MTDATAOP(name))        \
+    return this->left->calc() op_ this->right->calc()
+#define CALCOPEND() \
+else                \
+    throw
+
+mtelem_t MathtreeNode::calc()
+{
+    if(this->data->type == MTDATATYPE(Number))
+        return this->data->data.num;
+    
+    else if(this->data->type == MTDATATYPE(Op))
+    {
+        CALCOPSTART();
+        CALCOP(Add, +);
+        CALCOP(Sub, -);
+        CALCOP(Mul, *);
+        CALCOP(Div, /);
+        CALCOPEND();
+    }
+
+    else
+        throw;
 }
 
 int MathtreeNode::dump(const char* path)
@@ -282,6 +317,10 @@ MathtreeNode* MathtreeNode::operator/(const mtelem_t& num_)
 
 // Other funcs
 
+// OVERLOADS
+
+// num (+) node
+
 MathtreeNode* operator+(const mtelem_t& num_, MathtreeNode& node_)
 {
     if(node_.parent != nullptr)
@@ -322,6 +361,7 @@ MathtreeNode* operator/(const mtelem_t& num_, MathtreeNode& node_)
     return ((*num) / node_);
 }
 
+// node (+) nodePtr
 
 MathtreeNode* operator+(MathtreeNode& node1_, MathtreeNode* node2_)
 {
@@ -343,6 +383,7 @@ MathtreeNode* operator/(MathtreeNode& node1_, MathtreeNode* node2_)
     return node1_ / (*node2_);
 }
 
+// nodePtr (+) node
 
 MathtreeNode* operator+(MathtreeNode* node1_, MathtreeNode& node2_)
 {
