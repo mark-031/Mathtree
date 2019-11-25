@@ -105,12 +105,18 @@ class MathtreeNode
         MathtreeNode* right;
         MathtreeNode* left;
 
+        void init_(const mtnodedata_t num_, const char type_);
+
         void dotWriteNodes_(FILE* dotfile_);
 
         void dotWriteEdges_(FILE* dotfile_);
 
     public:
         MathtreeNode(const mtnodedata_t num_, const char type_);
+
+        MathtreeNode(const mtelem_t number_);
+
+        MathtreeNode(const unsigned int op_);
 
         int createRight(const mtnodedata_t num_, const char type_);
         

@@ -42,6 +42,14 @@ char MathtreeData::getType()
 
 // Node methods
 
+void MathtreeNode::init_(const mtnodedata_t num_, const char type_)
+{
+    this->data   = new MathtreeData(num_, type_);
+    this->parent = nullptr;
+    this->right  = nullptr;
+    this->left   = nullptr;
+}
+
 void MathtreeNode::dotWriteNodes_(FILE* dotfile_)
 {
     fprintf(dotfile_, "    node_%p [label=\"", this);
@@ -62,7 +70,7 @@ void MathtreeNode::dotWriteNodes_(FILE* dotfile_)
 
     if(this->left != nullptr)
         this->left->dotWriteNodes_(dotfile_);
-};
+}
 
 void MathtreeNode::dotWriteEdges_(FILE* dotfile_)
 {
@@ -77,14 +85,21 @@ void MathtreeNode::dotWriteEdges_(FILE* dotfile_)
         fprintf(dotfile_, "    node_%p -- node_%p;\n", this, this->left);
         this->left->dotWriteEdges_(dotfile_);
     }
-};
+}
 
 MathtreeNode::MathtreeNode(const mtnodedata_t num_, const char type_)
 {
-    this->data   = new MathtreeData(num_, type_);
-    this->parent = nullptr;
-    this->right  = nullptr;
-    this->left   = nullptr;
+    this->init_(num_, type_);
+}
+
+MathtreeNode::MathtreeNode(const mtelem_t number_)
+{
+    this->init_((mtnodedata_t) number_, MTDATATYPE(Number));
+}
+
+MathtreeNode::MathtreeNode(const unsigned int op_)
+{
+    this->init_((mtnodedata_t) op_, MTDATATYPE(Op));
 }
 
 int MathtreeNode::createRight(const mtnodedata_t num_, const char type_)
