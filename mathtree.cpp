@@ -93,6 +93,7 @@ int MathtreeNode::createRight(const mtnodedata_t num_, const char type_)
         return 1;
     
     this->right = new MathtreeNode(num_, type_);
+    this->right->parent = this;
 
     return 0;
 }
@@ -103,6 +104,7 @@ int MathtreeNode::createLeft(const mtnodedata_t num_, const char type_)
         return 1;
     
     this->left = new MathtreeNode(num_, type_);
+    this->left->parent = this;
 
     return 0;
 }
@@ -112,7 +114,11 @@ int MathtreeNode::setRight(MathtreeNode* node_)
     if(this->right != nullptr)
         return 1;
 
+    if(node_->parent != nullptr)
+        return 1;
+
     this->right = node_;
+    node_->parent = this;
 
     return 0;
 }
@@ -122,7 +128,11 @@ int MathtreeNode::setLeft(MathtreeNode* node_)
     if(this->left != nullptr)
         return 1;
 
+    if(node_->parent != nullptr)
+        return 1;
+    
     this->left = node_;
+    node_->parent = this;
 
     return 0;
 }
