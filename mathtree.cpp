@@ -321,3 +321,45 @@ MathtreeNode* operator/(const mtelem_t& num_, MathtreeNode& node_)
 
     return ((*num) / node_);
 }
+
+
+MathtreeNode* operator+(MathtreeNode& node1_, MathtreeNode* node2_)
+{
+    return node1_ + (*node2_);
+}
+
+MathtreeNode* operator-(MathtreeNode& node1_, MathtreeNode* node2_)
+{
+    return node1_ - (*node2_);
+}
+
+MathtreeNode* operator*(MathtreeNode& node1_, MathtreeNode* node2_)
+{
+    return node1_ * (*node2_);
+}
+
+MathtreeNode* operator/(MathtreeNode& node1_, MathtreeNode* node2_)
+{
+    return node1_ / (*node2_);
+}
+
+
+MathtreeNode* operator+(MathtreeNode* node1_, MathtreeNode& node2_)
+{
+    return (*node1_) + node2_;
+}
+
+MathtreeNode* operator-(MathtreeNode* node1_, MathtreeNode& node2_)
+{
+    return (*node1_) - node2_;
+}
+
+MathtreeNode* operator*(MathtreeNode* node1_, MathtreeNode& node2_)
+{
+    return (*node1_) * node2_;
+}
+
+MathtreeNode* operator/(MathtreeNode* node1_, MathtreeNode& node2_)
+{
+    return (*node1_) / node2_;
+}
