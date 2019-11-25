@@ -78,6 +78,8 @@ class Mathtree
     public:
         Mathtree();
 
+        ~Mathtree();
+
         int createRoot(const mtnodedata_t num_, const char type_);
 
         int setRoot(MathtreeNode* node_);
@@ -117,6 +119,8 @@ class MathtreeNode
         MathtreeNode(const mtelem_t number_);
 
         MathtreeNode(const unsigned int op_);
+
+        ~MathtreeNode();
 
         int createRight(const mtnodedata_t num_, const char type_);
         

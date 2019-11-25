@@ -7,6 +7,12 @@ Mathtree::Mathtree()
     this->root = nullptr;
 }
 
+Mathtree::~Mathtree()
+{
+    if(this->root != nullptr);
+        delete this->root;
+}
+
 int Mathtree::createRoot(const mtnodedata_t num_, const char type_)
 {
     if(this->root != nullptr)
@@ -100,6 +106,17 @@ MathtreeNode::MathtreeNode(const mtelem_t number_)
 MathtreeNode::MathtreeNode(const unsigned int op_)
 {
     this->init_((mtnodedata_t) op_, MTDATATYPE(Op));
+}
+
+MathtreeNode::~MathtreeNode()
+{
+    if(this->right != nullptr)
+        delete this->right;
+    
+    if(this->left != nullptr)
+        delete this->left;
+    
+    delete this->data;
 }
 
 int MathtreeNode::createRight(const mtnodedata_t num_, const char type_)
